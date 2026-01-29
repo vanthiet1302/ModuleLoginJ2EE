@@ -1,24 +1,20 @@
+### Java / Maven ###
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-.kotlin
 *.class
-*.log
 
 ### IntelliJ IDEA ###
 .idea/
-*.iws
 *.iml
+*.iws
 *.ipr
 out/
 
 ### Eclipse ###
-.apt_generated
 .classpath
-.factorypath
 .project
-.settings
+.settings/
+.apt_generated
+.factorypath
 .springBeans
 .sts4-cache
 bin/
@@ -29,9 +25,6 @@ bin/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
 ### VS Code ###
 .vscode/
@@ -48,3 +41,9 @@ Thumbs.db
 ### Logs ###
 logs/
 *.log
+
+### Runtime ###
+*.pid
+*.lock
+*.tmp
+*.cache
