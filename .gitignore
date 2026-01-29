@@ -3,15 +3,15 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .kotlin
+*.class
+*.log
 
 ### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
+.idea/
 *.iws
 *.iml
 *.ipr
+out/
 
 ### Eclipse ###
 .apt_generated
@@ -21,6 +21,7 @@ target/
 .settings
 .springBeans
 .sts4-cache
+bin/
 
 ### NetBeans ###
 /nbproject/private/
@@ -35,5 +36,15 @@ build/
 ### VS Code ###
 .vscode/
 
-### Mac OS ###
+### OS ###
 .DS_Store
+Thumbs.db
+
+### Database ###
+*.db
+*.sqlite
+*.sqlite3
+
+### Logs ###
+logs/
+*.log
