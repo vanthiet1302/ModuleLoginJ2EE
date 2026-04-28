@@ -47,3 +47,9 @@ logs/
 *.lock
 *.tmp
 *.cache
+
+### App config ###
+application.properties
+hibernate.cfg.xml
+logback.xml
+Dockerfile
