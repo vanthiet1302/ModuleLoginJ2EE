@@ -20,8 +20,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "display_name", length = 100, nullable = false)
-    private String displayName;
+    @Column(name = "last_name", length = 50, nullable = false)
+    private String lastName;
+
+    @Column(name = "first_name", length = 50, nullable = false)
+    private String firstName;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -64,7 +67,7 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Set<UserPermissionGrant> temporaryPermissionGrants;
+    private Set<UserPermissionGrant> userPermissionGrants;
 
     public boolean hasPermission(String resource, String action) {
         if (isSuperAdmin()) {
@@ -89,7 +92,7 @@ public class User {
 
     public Set<Permission> getAllPermissions() {
         if ((roles == null || roles.isEmpty())
-                && (temporaryPermissionGrants == null || temporaryPermissionGrants.isEmpty())) {
+                && (userPermissionGrants == null || userPermissionGrants.isEmpty())) {
             return Collections.emptySet();
         }
 
@@ -105,8 +108,8 @@ public class User {
                 .forEach(permission -> addPermission(permissionMap, permission));
         }
 
-        if (temporaryPermissionGrants != null) {
-            temporaryPermissionGrants.stream()
+        if (userPermissionGrants != null) {
+            userPermissionGrants.stream()
                     .filter(Objects::nonNull)
                     .filter(UserPermissionGrant::isActive)
                     .map(UserPermissionGrant::getPermission)
@@ -125,13 +128,13 @@ public class User {
     }
 
     private boolean hasTemporaryPermission(String resource, String action) {
-        if (temporaryPermissionGrants == null || temporaryPermissionGrants.isEmpty()
+        if (userPermissionGrants == null || userPermissionGrants.isEmpty()
                 || resource == null || action == null) {
             return false;
         }
 
         LocalDateTime now = LocalDateTime.now();
-        return temporaryPermissionGrants.stream()
+        return userPermissionGrants.stream()
                 .filter(Objects::nonNull)
                 .filter(grant -> grant.isActiveAt(now))
                 .map(UserPermissionGrant::getPermission)
@@ -159,5 +162,19 @@ public class User {
 
         String key = permission.getResource().trim().toUpperCase() + ":" + permission.getAction().trim().toUpperCase();
         permissionMap.putIfAbsent(key, permission);
+    }
+
+    public boolean isEmailVerified() {
+        if (credentials != null && credentials.isEmailVerified()) {
+            return true;
+        }
+
+//        if (oauthAccounts != null) {
+//            return oauthAccounts.stream()
+//                    .filter(Objects::nonNull)
+//                    .anyMatch(OAuthAccount::isEmailVerified);
+//        }
+
+        return false;
     }
 }
